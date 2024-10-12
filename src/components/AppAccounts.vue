@@ -122,7 +122,7 @@
               id="form-country-input"
               type="text"
               v-model="createAccountForm.country"
-              placeholder="Country Initials (max2)"
+              placeholder="Enter Country"
               required
             >
             </b-form-input>
