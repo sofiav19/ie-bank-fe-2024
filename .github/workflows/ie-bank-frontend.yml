@@ -14,7 +14,7 @@ env:
   FRONTEND_WEBAPP_UAT: svitorica-fe-uat
 
 jobs:
-  build-dev:
+  build:
     runs-on: ubuntu-latest
 
     steps:
@@ -29,17 +29,29 @@ jobs:
       - name: npm install, build, and test (dev)
         run: |
           npm install
-          npm run build:dev ## this command will build the vue.js app using .env.development variables into the dest-div/ folder
+          npm run build -- --mode development --dest dist-dev ## this command will build the vue.js app using .env.development variables into the dest-div/ folder
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
           name: node-app-dev
           path: dist-dev/
+      
+      - name: npm install, build, and test (UAT)
+        run: |
+          npm install
+          npm run build -- --mode uat --dest dist-uat ## this command will build the vue.js app using .env.development variables into the dest-div/ folder
+
+      - name: Upload artifact for deployment job (UAT)
+        uses: actions/upload-artifact@v4
+        with:
+          name: node-app-uat
+          path: dist-uat/
+
 
   deploy-dev:
     runs-on: ubuntu-latest
-    needs: build-dev
+    needs: build
     environment:
       name: 'Development'
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
@@ -61,35 +73,10 @@ jobs:
           app-name: ${{ env.FRONTEND_WEBAPP_DEV }}
           package: .
 
-
-  build-uat:
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Set up Node.js version
-        uses: actions/setup-node@v4
-        with:
-          node-version: '18.x'
-          cache: 'npm'
-
-      - name: npm install, build, and test (UAT)
-        run: |
-          npm install
-          npm run build:uat ## this command will build the vue.js app using .env.development variables into the dest-div/ folder
-
-      - name: Upload artifact for deployment job (UAT)
-        uses: actions/upload-artifact@v4
-        with:
-          name: node-app-uat
-          path: dist-uat/
-
-    
   deploy-uat:
     if: github.event_name == 'push'
     runs-on: ubuntu-latest
-    needs: build-uat
+    needs: build
     environment:
       name: 'UAT'
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
