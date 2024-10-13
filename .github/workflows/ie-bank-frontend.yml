@@ -32,7 +32,7 @@ jobs:
       - name: npm install, build, and test (dev)
         run: |
           npm install
-          npm run build:dev ## this command will build the vue.js app using .env.development variables into the dest-div/ folder
+          npm run build -- --mode development --dest dist-dev ## this command will build the vue.js app using .env.development variables into the dest-div/ folder
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
@@ -43,7 +43,7 @@ jobs:
       - name: npm install, build, and test (UAT)
         run: |
           npm install
-          npm run build:uat ## this command will build the vue.js app using .env.development variables into the dest-div/ folder
+          npm run build -- --mode uat --dest dist-uat ## this command will build the vue.js app using .uat.development variables into the dest-div/ folder
 
       - name: Upload artifact for deployment job (UAT)
         uses: actions/upload-artifact@v4
