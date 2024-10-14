@@ -1,3 +1,4 @@
+<!--New Homepage-->
 <template>
     <div class="homepage">
       <h1>Welcome!</h1>
@@ -41,7 +42,8 @@
   p{
     font-family: 'Montserrat', sans-serif;
   }
-  
+
+  /* Adds Button */
   button {
     background-color: #42b983;
     color: white;

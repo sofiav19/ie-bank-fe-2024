@@ -17,7 +17,7 @@ const routes = [
     name: 'AppAccounts',
     component: AppAccounts
   },
-  // trial
+  // add the homepage
   {
     path: '/',
     name: 'HomePage',
