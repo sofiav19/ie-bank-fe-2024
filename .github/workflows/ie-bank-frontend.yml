@@ -74,6 +74,7 @@ jobs:
           app-name: ${{ env.FRONTEND_WEBAPP_DEV }}
           package: .
 
+# deploy to uat
   deploy-uat:
     runs-on: ubuntu-latest
     needs: [build, deploy-dev]
